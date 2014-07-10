@@ -77,7 +77,8 @@ public abstract class Function {
     return size;
   }
 
+  // This should probably be somewhere else?
   public void enforce(boolean condition, String message) {
-
+    // TODO
   }
 }

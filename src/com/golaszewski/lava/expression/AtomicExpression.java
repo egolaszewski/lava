@@ -61,6 +61,11 @@ public class AtomicExpression implements Expression {
     return binding;
   }
 
+  /**
+   * Returns the atom contained by this atomic expression.
+   * 
+   * @return atom
+   */
   public Atom getAtom() {
     return atom;
   }

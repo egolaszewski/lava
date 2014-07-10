@@ -47,6 +47,7 @@ public class Environment {
 
     globals.put("nil", new AtomicExpression(NilAtom.getInstance()));
     globals.put("#t", new AtomicExpression(TrueAtom.getInstance()));
+    globals.put("t", new AtomicExpression(TrueAtom.getInstance()));
   }
 
   private Map<String, Expression> locals;

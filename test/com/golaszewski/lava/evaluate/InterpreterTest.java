@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.golaszewski.lava.evaluate.Interpreter;
 import com.golaszewski.lava.expression.Expression;
 
 /**
@@ -17,7 +16,7 @@ import com.golaszewski.lava.expression.Expression;
  */
 public class InterpreterTest {
 
-  private Interpreter interpreter = new Interpreter();
+  private FileInterpreter interpreter = new FileInterpreter();
 
   @Test
   public void cond() {
@@ -48,7 +47,7 @@ public class InterpreterTest {
     makeAssertion("(null? (quote (A B C)))", "nil");
     makeAssertion("(null? null?)", "nil");
   }
-  
+
   @Test
   public void atom() {
     System.out.println("... Atom Tests ...");
@@ -57,7 +56,7 @@ public class InterpreterTest {
   }
 
   private void makeAssertion(String expression, String expected) {
-    Expression result = interpreter.interpret(expression);
+    Expression result = interpreter.interpretString(expression);
     System.out.printf("%s -> %s\n", expression, result);
     assertTrue(result.toString().equals(expected));
   }
