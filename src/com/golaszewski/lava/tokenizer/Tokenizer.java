@@ -38,9 +38,9 @@ public class Tokenizer {
         result = Classification.LEFT_PARENTHESES;
       } else if (c == ')') {
         result = Classification.RIGHT_PARENTHESES;
-      } else if (c == '\n' || c == '\r') {
+      } else if (c == '\n') {
         result = Classification.NEW_LINE;
-      } else if (c == ' ' || c == '\t') {
+      } else if (c == ' ') {
         result = Classification.SPACE;
       } else {
         result = Classification.OTHER;
@@ -159,16 +159,6 @@ public class Tokenizer {
     }
   }
 
-  private class ErrorProcessor extends Processor {
-
-    @Override
-    public void process(char c, TokenizerContext context) {
-      throw new RuntimeException(String.format(
-          "Unexpected character encountered [row %d, col %d, state %s]: %s",
-          context.getRow(), context.getColumn(), context.getState(), c));
-    }
-  }
-
   private static Map<Classification, Integer> classificationIndexes =
       new HashMap<Classification, Integer>();
 
@@ -205,18 +195,17 @@ public class Tokenizer {
     Processor rParen = new RightParenthesisProcessor();
     Processor space = new SpaceProcessor();
     Processor newLine = new NewLineProcessor();
-    Processor error = new ErrorProcessor();
 
     // @formatter:off
     stateTable = new Processor[][] {
         /*  READY   | IDENTIFIER | NUMBER */
-        { identifier, identifier, error   },  /* ALPHABETIC */
+        { identifier, identifier, null    },  /* ALPHABETIC */
         { number    , identifier, number  },  /* DIGIT */
-        { lParen    , error     , error   },  /* L_PAREN */
+        { lParen    , null      , null    },  /* L_PAREN */
         { rParen    , rParen    , rParen  },  /* R_PAREN */
         { space     , space     , space   },  /* SPACE */
         { newLine   , newLine   , newLine },  /* NEW_LINE */
-        { identifier, identifier, error   }   /* OTHER */
+        { identifier, identifier, null    }   /* OTHER */
     };
     // @formatter:on
 
