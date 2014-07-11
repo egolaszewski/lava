@@ -84,7 +84,7 @@ public class FileInterpreter {
     while (reader.ready()) {
       String line = reader.readLine();
       inputBuilder.append(line);
-      inputBuilder.append('\n');
+      inputBuilder.append(System.lineSeparator());
     }
 
     return inputBuilder.toString();

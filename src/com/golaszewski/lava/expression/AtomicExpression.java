@@ -54,6 +54,11 @@ public class AtomicExpression implements Expression {
   public String toString() {
     return atom.toString();
   }
+  
+  @Override
+  public String toString(boolean isHead) {
+    return toString();
+  }
 
   @Override
   public Expression evaluate(Environment env) {

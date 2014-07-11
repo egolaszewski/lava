@@ -27,7 +27,27 @@ public class ListExpression implements Expression {
 
   @Override
   public String toString() {
-    return String.format("(%s . %s)", first, rest);
+    return toString(true);
+  }
+
+  public String toString(boolean isHead) {
+    if (isHead) {
+      if (null == rest) {
+        return String.format("(%s)", first);
+      } else if (rest instanceof AtomicExpression) {
+        return String.format("(%s . %s)", first, rest);
+      } else {
+        return String.format("(%s %s", first, rest.toString(false));
+      }
+    } else {
+      if (null == rest) {
+        return String.format("%s)", first);
+      } else if (rest instanceof AtomicExpression) {
+        return String.format("%s . %s)", first, rest);
+      } else {
+        return String.format("%s %s", first, rest.toString(false));
+      }
+    }
   }
 
   /**
@@ -83,7 +103,8 @@ public class ListExpression implements Expression {
   /**
    * Performs a function call.
    * 
-   * @param head, reference to the atomic expression that contains the function to call.
+   * @param head, reference to the atomic expression that contains the function
+   *        to call.
    * @param args, the head of the argument list.
    * @param env, the execution environment.
    * @return the result of the call.
@@ -111,20 +132,21 @@ public class ListExpression implements Expression {
     ListExpression result;
     ListExpression evaluated = new ListExpression(null, null);
     ListExpression current = args;
-    
+
     /* Capture the head of the evaluated list so we don't lose the reference. */
     result = evaluated;
 
-    // We need to create a copy of the args, otherwise we mess up lambdas real bad.
+    // We need to create a copy of the args, otherwise we mess up lambdas real
+    // bad.
     while (current instanceof ListExpression) {
       evaluated.first = current.first.evaluate(env);
-      
+
       if (current.rest != null) {
         ListExpression next = new ListExpression(null, null);
         evaluated.rest = next;
         evaluated = next;
       }
-      
+
       current = (ListExpression) current.rest;
     }
 
