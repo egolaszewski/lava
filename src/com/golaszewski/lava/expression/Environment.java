@@ -26,7 +26,7 @@ import com.golaszewski.lava.function.QuoteFunction;
  */
 public class Environment {
   private static Map<String, Expression> globals;
-  
+
   private static AtomicExpression createFunctionAtom(Function funct) {
     FunctionAtom functAtom = new FunctionAtom(funct);
     return new AtomicExpression(functAtom);
@@ -47,34 +47,45 @@ public class Environment {
 
     globals.put("nil", new AtomicExpression(NilAtom.getInstance()));
     globals.put("#t", new AtomicExpression(TrueAtom.getInstance()));
-    globals.put("t", new AtomicExpression(TrueAtom.getInstance()));
   }
 
   private Map<String, Expression> locals;
+
+  private Expression findBinding(String key) {
+    Expression binding = locals.get(key);
+
+    if (null == binding) {
+      binding = globals.get(key);
+    }
+
+    if (null == binding) {
+      handleUnbound(key);
+    }
+
+    return binding;
+  }
+
+  private void handleUnbound(String key) {
+    String error = String.format("symbol %s is unbound.", key);
+    System.out.printf("dump of the environment: %s\n", locals);
+    throw new IllegalArgumentException(error);
+  }
 
   public Environment() {
     locals = new HashMap<String, Expression>();
   }
 
+  /**
+   * Retrieves the binding pair for the input atom. Local bindings will be
+   * searched first, followed by global bindings. If a match is not made in
+   * either, an exception is thrown.
+   * 
+   * @param binding, the binding to search for.
+   * @return the bound expression or element.
+   */
   public Expression getBinding(Atom binding) {
-    Expression value;
     String text = binding.getText();
-
-    /*
-     * We search for a key in the local environment first. If it's not there,
-     * then we check the global.
-     */
-    if (locals.containsKey(text)) {
-      value = locals.get(text);
-    } else if (globals.containsKey(text)) {
-      value = globals.get(text);
-    } else {
-      String error = String.format("symbol %s is unbound.", binding);
-      System.out.printf("dump of the environment: %s\n", locals);
-      throw new IllegalArgumentException(error);
-    }
-
-    return value;
+    return findBinding(text);
   }
 
   /**

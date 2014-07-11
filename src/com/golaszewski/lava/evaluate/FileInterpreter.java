@@ -99,9 +99,9 @@ public class FileInterpreter {
     try {
       reader.close();
     } catch (IOException e) {
-      // TODO
+      e.printStackTrace();
     } catch (NullPointerException e) {
-      // TODO
+      e.printStackTrace();
     }
   }
 
@@ -138,11 +138,13 @@ public class FileInterpreter {
 
       parsed = head;
       tokenQueue.poll();
+    } else if (token.getType() == TokenType.RIGHT_PARENTHESIS) {
+      throw new RuntimeException("WHAT?! RIGHT PARENTHESIS?!");
     } else {
       String value = token.getText();
       parsed = new AtomicExpression(new RawAtom(value));
     }
-
+    
     return parsed;
   }
 

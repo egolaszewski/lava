@@ -2,6 +2,7 @@ package com.golaszewski.lava.evaluate;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.golaszewski.lava.expression.Expression;
@@ -16,7 +17,12 @@ import com.golaszewski.lava.expression.Expression;
  */
 public class InterpreterTest {
 
-  private FileInterpreter interpreter = new FileInterpreter();
+  private FileInterpreter interpreter;
+
+  @Before
+  public void initInterpreter() {
+    interpreter = new FileInterpreter();
+  }
 
   @Test
   public void cond() {
@@ -53,6 +59,23 @@ public class InterpreterTest {
     System.out.println("... Atom Tests ...");
     makeAssertion("(atom (quote A))", "#t");
     makeAssertion("(atom (quote (A B)))", "nil");
+  }
+  
+  @Test
+  public void buildList() {
+    System.out.println("... Building a List ...");
+    makeAssertion("(cons (quote a) (cons (quote b) (cons (quote c) (cons (quote d) nil))))", "(a b c d . nil)");
+  }
+
+  @Test
+  public void recursiveFunction() {
+    System.out.println("... Recursive Function Test ...");
+    makeAssertion(
+        "(label last (lambda (list) (cond ((eq nil (cdr list)) (car list)) (#t (last (cdr list))))))",
+        "#t");
+    makeAssertion(
+        "(last (cons (quote a) (cons (quote b) (cons (quote c) nil))))",
+        "c");
   }
 
   private void makeAssertion(String expression, String expected) {

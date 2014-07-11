@@ -28,6 +28,11 @@ public class CondFunction extends Function {
       }
     }
     
+    // TODO insert guard if condition does not evaluate to nil or #t
+    if (result == null) {
+      throw new RuntimeException("YOU SHALL NOT PASS!");
+    }
+    
     return result;
   }
 

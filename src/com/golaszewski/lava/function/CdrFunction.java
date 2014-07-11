@@ -18,7 +18,7 @@ public class CdrFunction extends Function {
 
     if (!(arg instanceof ListExpression)) {
       throw new IllegalArgumentException(
-          "cdr: the input must be a list or pair!");
+          String.format("cdr: the input must be a list or pair! got: %s", arg));
     }
 
     ListExpression asList = (ListExpression) arg;

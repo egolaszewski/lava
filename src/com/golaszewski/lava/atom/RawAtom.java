@@ -10,6 +10,11 @@ package com.golaszewski.lava.atom;
  */
 public class RawAtom extends Atom {
 
+  /**
+   * Creates a new RawAtom.
+   * 
+   * @param text, the text contained in the atom.
+   */
   public RawAtom(String text) {
     super(text);
   }
