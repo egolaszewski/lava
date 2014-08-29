@@ -64,6 +64,7 @@ public class Interpreter
                 Expression e = parser.parse(tokens);
                 Expression r = e.evaluate(env);
                 System.out.printf("%s -> %s\n", e, r);
+                System.out.println(r.getClass());
             }
 
         }

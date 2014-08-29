@@ -32,10 +32,9 @@ public class CondFunction extends Function
             }
         }
 
-        // TODO insert guard if condition does not evaluate to nil or #t
         if (result == null)
         {
-            throw new RuntimeException("YOU SHALL NOT PASS!");
+            throw new IllegalStateException(String.format("Cond. guard conditions must evaluate to #t or nil. Got: %s", result));
         }
 
         return result;
@@ -52,7 +51,6 @@ public class CondFunction extends Function
         Expression condition = getArgument(clause, 0);
         Expression body = getArgument(clause, 1);
         Expression evaluated = null;
-
         Expression conditionResult = condition.evaluate(env);
 
         if (isTrue(conditionResult))

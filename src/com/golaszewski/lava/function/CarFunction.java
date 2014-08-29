@@ -19,7 +19,7 @@ public class CarFunction extends Function
 
         if (!(arg instanceof ListExpression))
         {
-            throw new IllegalArgumentException("car: the input must be a list or pair!");
+            throw new IllegalArgumentException(String.format("car: the input must be a list or pair! Got: %s\n", arg));
         }
 
         ListExpression asList = (ListExpression) arg;

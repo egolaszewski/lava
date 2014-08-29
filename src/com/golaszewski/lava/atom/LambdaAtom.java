@@ -56,19 +56,9 @@ public class LambdaAtom extends Atom
      */
     public Expression invoke(ListExpression inputs, Environment env)
     {
-        Expression result;
-
-        try
-        {
-            pushInputs(inputs, env);
-            result = body.evaluate(env);
-        }
-        finally
-        {
-            popInputs(env);
-        }
-
-        return result;
+        Environment local = new Environment(env);
+        pushInputs(inputs, local);
+        return body.evaluate(local);
     }
 
     /**
@@ -82,7 +72,7 @@ public class LambdaAtom extends Atom
     {
         /*
          * NOTE on input vs. arg terminology. Arguments refer to the args bound to the lambda. Inputs refer to the
-         * actual arguements being provided TO the lambda.
+         * actual arguments being provided TO the lambda.
          */
         ListExpression currentInput = inputs;
         ListExpression currentArg = args;
@@ -95,23 +85,6 @@ public class LambdaAtom extends Atom
 
             currentInput = (ListExpression) currentInput.rest();
             currentArg = (ListExpression) args.rest();
-        }
-    }
-
-    /**
-     * Pops the input/arg pairs off of the environment.
-     * 
-     * @param env, the active execution environment.
-     */
-    private void popInputs(Environment env)
-    {
-        ListExpression current = args;
-
-        while (current instanceof ListExpression)
-        {
-            Atom arg = getAtom(current.first());
-            env.unbind(arg);
-            current = (ListExpression) current.rest();
         }
     }
 

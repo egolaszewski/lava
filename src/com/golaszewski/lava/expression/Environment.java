@@ -83,6 +83,22 @@ public class Environment
     }
 
     /**
+     * Copy constructor for an environment. Will create a deep copy of the local bindings.
+     * 
+     * @param other, the environment to copy.
+     */
+    public Environment(Environment other)
+    {
+        locals = new HashMap<String, Expression>();
+
+        for (String k : other.locals.keySet())
+        {
+            Expression value = other.locals.get(k);
+            this.locals.put(k, value);
+        }
+    }
+
+    /**
      * Retrieves the binding pair for the input atom. Local bindings will be searched first, followed by global
      * bindings. If a match is not made in either, an exception is thrown.
      * 

@@ -1,7 +1,6 @@
 package com.golaszewski.lava.evaluate;
 
-import java.util.Scanner;
-import com.golaszewski.lava.expression.Expression;
+import java.io.File;
 
 /**
  * Driver class for the lava REPL.
@@ -13,9 +12,12 @@ public class REPL
 {
 
     public static void main(String[] args)
-    {
+    {        
+        Interpreter i = new Interpreter();    
+        i.interpret(new File("interpreter.lisp"));
+        
+        /*
         Scanner sc = new Scanner(System.in);
-        Interpreter i = new Interpreter();
 
         while (sc.hasNext())
         {
@@ -38,6 +40,7 @@ public class REPL
         }
 
         sc.close();
+        */
     }
 
 }
