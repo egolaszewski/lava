@@ -12,18 +12,21 @@ import com.golaszewski.lava.expression.ListExpression;
  * @author Ennis Golaszewski
  * 
  */
-public class LambdaFunction extends Function {
+public class LambdaFunction extends Function
+{
 
-  @Override
-  public Expression call(ListExpression args, Environment env) {
-    ListExpression lambdaArgs = (ListExpression) getArgument(args, 0);
-    ListExpression expr = (ListExpression) getArgument(args, 1);
-    LambdaAtom lambda = new LambdaAtom(lambdaArgs, expr);
-    return new AtomicExpression(lambda);
-  }
+    @Override
+    public Expression call(ListExpression args, Environment env)
+    {
+        ListExpression lambdaArgs = (ListExpression) getArgument(args, 0);
+        ListExpression expr = (ListExpression) getArgument(args, 1);
+        LambdaAtom lambda = new LambdaAtom(lambdaArgs, expr);
+        return new AtomicExpression(lambda);
+    }
 
-  @Override
-  public boolean evaluateArguments() {
-    return false;
-  }
+    @Override
+    public boolean evaluateArguments()
+    {
+        return false;
+    }
 }

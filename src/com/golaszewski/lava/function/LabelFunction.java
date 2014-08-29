@@ -12,19 +12,22 @@ import com.golaszewski.lava.expression.ListExpression;
  * @author Ennis Golaszewski
  * 
  */
-public class LabelFunction extends Function {
+public class LabelFunction extends Function
+{
 
-  @Override
-  public Expression call(ListExpression args, Environment env) {
-    AtomicExpression label = (AtomicExpression) getArgument(args, 0);
-    Expression value = getArgument(args, 1);
-    env.bind(label.getAtom(), value.evaluate(env));
-    return new AtomicExpression(TrueAtom.getInstance());
-  }
+    @Override
+    public Expression call(ListExpression args, Environment env)
+    {
+        AtomicExpression label = (AtomicExpression) getArgument(args, 0);
+        Expression value = getArgument(args, 1);
+        env.bind(label.getAtom(), value.evaluate(env));
+        return new AtomicExpression(TrueAtom.getInstance());
+    }
 
-  @Override
-  public boolean evaluateArguments() {
-    return false;
-  }
+    @Override
+    public boolean evaluateArguments()
+    {
+        return false;
+    }
 
 }

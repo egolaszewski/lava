@@ -12,68 +12,78 @@ import com.golaszewski.lava.expression.ListExpression;
  * @author Ennis Golaszewski
  * 
  */
-public class CondFunction extends Function {
+public class CondFunction extends Function
+{
 
-  @Override
-  public Expression call(ListExpression args, Environment env) {
-    Expression result = null;
-    int numClauses = getArgCount(args);
+    @Override
+    public Expression call(ListExpression args, Environment env)
+    {
+        Expression result = null;
+        int numClauses = getArgCount(args);
 
-    for (int i = 0; i < numClauses; i++) {
-      ListExpression clause = (ListExpression) getArgument(args, i);
-      result = evaluateClause(clause, env);
+        for (int i = 0; i < numClauses; i++)
+        {
+            ListExpression clause = (ListExpression) getArgument(args, i);
+            result = evaluateClause(clause, env);
 
-      if (result != null) {
-        break;
-      }
-    }
-    
-    // TODO insert guard if condition does not evaluate to nil or #t
-    if (result == null) {
-      throw new RuntimeException("YOU SHALL NOT PASS!");
-    }
-    
-    return result;
-  }
+            if (result != null)
+            {
+                break;
+            }
+        }
 
-  @Override
-  public boolean evaluateArguments() {
-    return false;
-  }
+        // TODO insert guard if condition does not evaluate to nil or #t
+        if (result == null)
+        {
+            throw new RuntimeException("YOU SHALL NOT PASS!");
+        }
 
-  private Expression evaluateClause(ListExpression clause, Environment env) {
-    Expression condition = getArgument(clause, 0);
-    Expression body = getArgument(clause, 1);
-    Expression evaluated = null;
-
-    Expression conditionResult = condition.evaluate(env);
-
-    if (isTrue(conditionResult)) {
-      evaluated = body.evaluate(env);
+        return result;
     }
 
-    return evaluated;
-  }
-
-  /**
-   * Returns true if the input expression is an atomic expression carrying a
-   * True atom.
-   * 
-   * @param expr, the expression to check.
-   * @return true or false.
-   */
-  private boolean isTrue(Expression expr) {
-    boolean result = false;
-
-    if (expr instanceof AtomicExpression) {
-      AtomicExpression atomExpr = (AtomicExpression) expr;
-
-      if (atomExpr.getAtom() instanceof TrueAtom) {
-        result = true;
-      }
+    @Override
+    public boolean evaluateArguments()
+    {
+        return false;
     }
 
-    return result;
-  }
+    private Expression evaluateClause(ListExpression clause, Environment env)
+    {
+        Expression condition = getArgument(clause, 0);
+        Expression body = getArgument(clause, 1);
+        Expression evaluated = null;
+
+        Expression conditionResult = condition.evaluate(env);
+
+        if (isTrue(conditionResult))
+        {
+            evaluated = body.evaluate(env);
+        }
+
+        return evaluated;
+    }
+
+    /**
+     * Returns true if the input expression is an atomic expression carrying a True atom.
+     * 
+     * @param expr, the expression to check.
+     * @return true or false.
+     */
+    private boolean isTrue(Expression expr)
+    {
+        boolean result = false;
+
+        if (expr instanceof AtomicExpression)
+        {
+            AtomicExpression atomExpr = (AtomicExpression) expr;
+
+            if (atomExpr.getAtom() instanceof TrueAtom)
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
 
 }

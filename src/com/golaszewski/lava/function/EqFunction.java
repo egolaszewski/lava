@@ -14,30 +14,35 @@ import com.golaszewski.lava.expression.ListExpression;
  * @author Ennis Golaszewski
  * 
  */
-public class EqFunction extends Function {
+public class EqFunction extends Function
+{
 
-  @Override
-  public Expression call(ListExpression args, Environment env) {
-    Atom result = NilAtom.getInstance();
-    
-    Expression first = getArgument(args, 0);
-    Expression second = getArgument(args, 1);
+    @Override
+    public Expression call(ListExpression args, Environment env)
+    {
+        Atom result = NilAtom.getInstance();
 
-    if (first instanceof AtomicExpression && second instanceof AtomicExpression) {
-      Atom firstAtom = ((AtomicExpression) first).getAtom();
-      Atom secondAtom = ((AtomicExpression) second).getAtom();
-      
-      if (firstAtom.equals(secondAtom)) {
-        result = TrueAtom.getInstance();
-      }
-    } 
-    
-    return new AtomicExpression(result);
-  }
+        Expression first = getArgument(args, 0);
+        Expression second = getArgument(args, 1);
 
-  @Override
-  public boolean evaluateArguments() {
-    return true;
-  }
+        if (first instanceof AtomicExpression && second instanceof AtomicExpression)
+        {
+            Atom firstAtom = ((AtomicExpression) first).getAtom();
+            Atom secondAtom = ((AtomicExpression) second).getAtom();
+
+            if (firstAtom.equals(secondAtom))
+            {
+                result = TrueAtom.getInstance();
+            }
+        }
+
+        return new AtomicExpression(result);
+    }
+
+    @Override
+    public boolean evaluateArguments()
+    {
+        return true;
+    }
 
 }

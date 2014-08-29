@@ -10,18 +10,21 @@ import com.golaszewski.lava.expression.ListExpression;
  * @author Ennis Golaszewski
  * 
  */
-public class ConsFunction extends Function {
+public class ConsFunction extends Function
+{
 
-  @Override
-  public Expression call(ListExpression args, Environment env) {
-    Expression first = getArgument(args, 0);
-    Expression rest = getArgument(args, 1);
-    return new ListExpression(first, rest);
-  }
+    @Override
+    public Expression call(ListExpression args, Environment env)
+    {
+        Expression first = getArgument(args, 0);
+        Expression rest = getArgument(args, 1);
+        return new ListExpression(first, rest);
+    }
 
-  @Override
-  public boolean evaluateArguments() {
-    return true;
-  }
+    @Override
+    public boolean evaluateArguments()
+    {
+        return true;
+    }
 
 }

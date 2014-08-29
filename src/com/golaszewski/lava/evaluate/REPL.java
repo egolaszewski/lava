@@ -1,7 +1,6 @@
 package com.golaszewski.lava.evaluate;
 
 import java.util.Scanner;
-
 import com.golaszewski.lava.expression.Expression;
 
 /**
@@ -10,28 +9,35 @@ import com.golaszewski.lava.expression.Expression;
  * @author Ennis Golaszewski
  * 
  */
-public class REPL {
+public class REPL
+{
 
-  public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    Interpreter i = new Interpreter();
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        Interpreter i = new Interpreter();
 
-    while (sc.hasNext()) {
-      String input = sc.nextLine();
+        while (sc.hasNext())
+        {
+            String input = sc.nextLine();
 
-      if (input.equals("(quit)")) {
-        break;
-      }
+            if (input.equals("(quit)"))
+            {
+                break;
+            }
 
-      try {
-        Expression e = i.interpretString(input);
-        System.out.println(e);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+            try
+            {
+                Expression e = i.interpretString(input);
+                System.out.println(e);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        sc.close();
     }
-
-    sc.close();
-  }
 
 }

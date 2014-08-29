@@ -10,16 +10,19 @@ import com.golaszewski.lava.expression.ListExpression;
  * @author Ennis Golaszewski
  * 
  */
-public class QuoteFunction extends Function {
+public class QuoteFunction extends Function
+{
 
-  @Override
-  public Expression call(ListExpression args, Environment env) {
-    return args.first();
-  }
+    @Override
+    public Expression call(ListExpression args, Environment env)
+    {
+        return args.first();
+    }
 
-  @Override
-  public boolean evaluateArguments() {
-    return false;
-  }
+    @Override
+    public boolean evaluateArguments()
+    {
+        return false;
+    }
 
 }
