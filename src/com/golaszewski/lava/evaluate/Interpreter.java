@@ -7,13 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Queue;
 
-import com.golaszewski.lava.atom.RawAtom;
-import com.golaszewski.lava.expression.AtomicExpression;
 import com.golaszewski.lava.expression.Environment;
 import com.golaszewski.lava.expression.Expression;
-import com.golaszewski.lava.expression.ListExpression;
 import com.golaszewski.lava.tokenizer.Token;
-import com.golaszewski.lava.tokenizer.TokenType;
 import com.golaszewski.lava.tokenizer.Tokenizer;
 
 /**
@@ -22,24 +18,27 @@ import com.golaszewski.lava.tokenizer.Tokenizer;
  * @author Ennis Golaszewski
  * 
  */
-public class FileInterpreter {
+public class Interpreter {
 
   private Environment env;
   private Tokenizer tok;
+  private ExpressionParser parser;
 
-  public FileInterpreter() {
+  public Interpreter() {
     env = new Environment();
     tok = new Tokenizer();
+    parser = new ExpressionParser();
   }
 
-  public static void main(String[] args) {
-    FileInterpreter interpreter = new FileInterpreter();
-    interpreter.interpret(new File("interpreter.lisp"));
-  }
-  
+  /**
+   * Interprets a single line of input.
+   * 
+   * @param s, the string to interpret.
+   * @return the resulting expression from the interpretation.
+   */
   public Expression interpretString(String s) {
     Queue<Token> tokens = tok.tokenize(s);
-    Expression e = parseExpression(tokens);
+    Expression e = parser.parse(tokens);
     return e.evaluate(env);
   }
 
@@ -57,7 +56,7 @@ public class FileInterpreter {
       Queue<Token> tokens = tok.tokenize(input);
 
       while (tokens.size() > 0) {
-        Expression e = parseExpression(tokens);
+        Expression e = parser.parse(tokens);
         Expression r = e.evaluate(env);
         System.out.printf("%s -> %s\n", e, r);
       }
@@ -104,49 +103,5 @@ public class FileInterpreter {
       e.printStackTrace();
     }
   }
-
-  /**
-   * Parses s-expressions out of a token stream.
-   * 
-   * @param tokenQueue, the queue of tokens providing the token stream.
-   * @return the first parsed s-expression.
-   */
-  private Expression parseExpression(Queue<Token> tokenQueue) {
-    Expression parsed;
-    Token token = tokenQueue.poll();
-
-    if (token.getType() == TokenType.LEFT_PARENTHESIS) {
-
-      ListExpression head =
-          new ListExpression(parseExpression(tokenQueue), null);
-
-      ListExpression prev = head;
-
-      while (tokenQueue.peek().getType() != TokenType.RIGHT_PARENTHESIS) {
-
-        ListExpression next =
-            new ListExpression(parseExpression(tokenQueue), null);
-
-        prev.setRest(next);
-        prev = next;
-
-        if (tokenQueue.peek() == null) {
-          throw new IllegalArgumentException(String.format(
-              "%s - missing closing parenthesis!", head));
-        }
-      }
-
-      parsed = head;
-      tokenQueue.poll();
-    } else if (token.getType() == TokenType.RIGHT_PARENTHESIS) {
-      throw new RuntimeException("WHAT?! RIGHT PARENTHESIS?!");
-    } else {
-      String value = token.getText();
-      parsed = new AtomicExpression(new RawAtom(value));
-    }
-    
-    return parsed;
-  }
-
 
 }

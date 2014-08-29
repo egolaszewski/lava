@@ -10,18 +10,18 @@ import com.golaszewski.lava.expression.Expression;
 /**
  * Test suite for the top level interpreter.
  * 
- * @see com.golaszewski.lava.evaluate.Interpreter
+ * @see com.golaszewski.lava.evaluate.REPL
  * 
  * @author Ennis Golaszewski
  * 
  */
 public class InterpreterTest {
 
-  private FileInterpreter interpreter;
+  private Interpreter interpreter;
 
   @Before
   public void initInterpreter() {
-    interpreter = new FileInterpreter();
+    interpreter = new Interpreter();
   }
 
   @Test
